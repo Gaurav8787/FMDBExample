@@ -16,7 +16,79 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        loadDB()
+       // doTatal(num1: 2, num2: 10)
+       // doTatal2(num1: 7, num2: 7)
         return true
+    }
+    
+    func doTatal(num1 : Int?, num2: Int?) {
+        // nested if statement
+        if let fistNum = num1, num1! > 0 {
+            if let lastNum = num2, num2! < 50 {
+                
+                let total = fistNum + lastNum
+                print(total)
+            }
+        }
+        // don't allow me to access out of the scope
+ //    let  total2 = fistNum + lastNum
+    }
+    
+    
+    func doTatal2(num1 : Int?, num2: Int?) {
+        //reduce  nested if statement and check positive way not negative way
+        guard let fistNum = num1, num1! > 0 else{
+            return
+        }
+        guard  let lastNum = num2, num2! < 50 else {
+            return
+        }
+        // increase my scope which my variable accessible
+        let total = fistNum + lastNum
+        print(total)
+        
+    }
+    
+    func loadDB() {
+        
+      /*  var userName = "hello"
+        
+        guard let unwrappedName = userName else {
+            return
+        }
+        
+        print("Your username is \(unwrappedName)")
+        
+        if let unwrappedName = userName {
+            print("Your username is \(unwrappedName)")
+        } else {
+            return
+        }*/
+        
+        // this won't work – unwrappedName doesn't exist here!
+   //     print("Your username is \(unwrappedName)")
+        
+        let fileName = "mydb.db"
+        
+        let bundleURL = Bundle.main.resourceURL?.appendingPathComponent(fileName)
+        
+        let filemanager:FileManager = FileManager.default
+        let dir = filemanager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let dburl = dir.appendingPathComponent(fileName)
+        
+        if filemanager.fileExists(atPath: dburl.path){
+            print("file exists")
+        } else {
+            
+           do {
+                try filemanager.copyItem(at: bundleURL!, to: dburl)
+            } catch  let error as NSError {
+                print(error)
+            }
+            
+        }
+        
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
